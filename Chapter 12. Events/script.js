@@ -157,6 +157,31 @@
 //     }
 // }
 
+const button = document.getElementById("btn");
+document.addEventListener("payment", (e)=>{
+    console.log("Payment succeeded!");
+    console.log("Payment Sum:", e.detail.paymentSum);   
+    console.log("Current balance:", e.detail.balance);
+});
+const myAcc = new Account(100)
+button.addEventListener("click", () => myAcc.pay(50))
+
+function Account(money) {
+    _money = money;
+    this.pay=function(sum){
+        if(_money >= sum){
+            _money -= sum;
+            
+            const event = new CustomEvent("payment", {
+                detail:{                
+                    paymentSum: sum, 
+                    balance: _money
+                }
+            });
+            document.dispatchEvent(event);      
+        }
+    }
+}
 
 
 
